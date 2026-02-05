@@ -10,7 +10,11 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "migrate": "sequelize-cli db:migrate",
-    "migrate:undo": "sequelize-cli db:migrate:undo"
+    "migrate:wait": "node scripts/wait-for-db.js",
+    "migrate:undo": "sequelize-cli db:migrate:undo",
+    "db:up": "docker compose up -d",
+    "db:setup": "docker compose up -d && sequelize-cli db:migrate",
+    "db:shell": "docker compose exec postgres psql -U postgres -d sycamore"
   },
   "packageManager": "pnpm@9.14.2",
   "engines": {
