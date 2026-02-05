@@ -220,8 +220,8 @@ Then run `SELECT id, balance, currency FROM "Wallets";` and note the `id`s (e.g.
   ```json
   {
     "walletId": 1,
-    "fromDate": "2024-01-01",
-    "toDate": "2024-01-07"
+    "fromDate": "2026-01-01",
+    "toDate": "2026-01-07"
   }
   ```
 - Send. You should get **200** with `totalInterest`, `daysProcessed`, etc. The wallet’s balance increases and new rows appear in **Ledgers** with `type = 'INTEREST'`.

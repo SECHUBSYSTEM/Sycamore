@@ -56,7 +56,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"walletId\": 1,\n  \"fromDate\": \"2024-01-01\",\n  \"toDate\": \"2024-01-07\"\n}"
+              "raw": "{\n  \"walletId\": 1,\n  \"fromDate\": \"2026-01-01\",\n  \"toDate\": \"2026-01-07\"\n}"
             },
             "url": "{{baseUrl}}/accumulate",
             "description": "Accrue compound daily interest (27.5% p.a.) for wallet 1 over the date range."
