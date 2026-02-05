@@ -14,7 +14,9 @@
     "migrate:undo": "sequelize-cli db:migrate:undo",
     "db:up": "docker compose up -d",
     "db:setup": "docker compose up -d && sequelize-cli db:migrate",
-    "db:shell": "docker compose exec postgres psql -U postgres -d sycamore"
+    "db:seed": "sequelize-cli db:seed:all",
+    "db:shell": "docker compose exec postgres psql -U postgres -d sycamore",
+    "postman:ready": "pnpm run db:up && pnpm run migrate:wait && pnpm run db:seed"
   },
   "packageManager": "pnpm@9.14.2",
   "engines": {
@@ -27,13 +29,15 @@
     "express": "^4.21.1",
     "pg": "^8.13.1",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.5"
+    "sequelize": "^6.37.5",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/big.js": "^6.2.0",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.9.0",
+    "@types/uuid": "^10.0.0",
     "jest": "^29.7.0",
     "sequelize-cli": "^6.6.2",
     "supertest": "^7.0.0",

@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import { validate as validateUuid } from "uuid";
 import { transfer } from "../services/transfer.service";
 import { resolveIdempotencyKey } from "../middleware/idempotency";
 import { parseAmount } from "../utils/bigint";
@@ -21,6 +22,12 @@ router.post(
       if (!key || key.length === 0) {
         res.status(400).json({
           error: "Idempotency-Key header or idempotencyKey in body is required",
+        });
+        return;
+      }
+      if (!validateUuid(key)) {
+        res.status(400).json({
+          error: "Idempotency-Key must be a valid UUID (e.g. RFC 4122)",
         });
         return;
       }

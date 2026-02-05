@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "Sycamore",
+    "description": "Idempotent wallet transfer and daily interest. Seed first: `pnpm run db:seed` (wallets 1 & 2).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000" },
+    { "key": "idempotencyKey", "value": "550e8400-e29b-41d4-a716-446655440000" }
+  ],
+  "item": [
+    {
+      "name": "Transfer",
+      "item": [
+        {
+          "name": "POST Transfer (idempotent)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "{{idempotencyKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fromWalletId\": 1,\n  \"toWalletId\": 2,\n  \"amount\": \"3000\"\n}"
+            },
+            "url": "{{baseUrl}}/transfer",
+            "description": "Transfer 30.00 USD from wallet 1 to wallet 2. Send twice with same Idempotency-Key to see idempotency (200, same body, no double debit)."
+          }
+        },
+        {
+          "name": "POST Transfer (new key)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "{{$guid}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fromWalletId\": 1,\n  \"toWalletId\": 2,\n  \"amount\": \"1000\"\n}"
+            },
+            "url": "{{baseUrl}}/transfer",
+            "description": "Uses Postman {{$guid}} for a new UUID each time. Use for multiple distinct transfers."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Interest",
+      "item": [
+        {
+          "name": "POST Accumulate interest",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"walletId\": 1,\n  \"fromDate\": \"2024-01-01\",\n  \"toDate\": \"2024-01-07\"\n}"
+            },
+            "url": "{{baseUrl}}/accumulate",
+            "description": "Accrue compound daily interest (27.5% p.a.) for wallet 1 over the date range."
+          }
+        }
+      ]
+    }
+  ]
+}
